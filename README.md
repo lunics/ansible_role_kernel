@@ -2,7 +2,7 @@
 
 Install the Linux kernel and setup sysctl and modprobe.
 
-sysctl is inspired from [robertdebock](https://github.com/robertdebock/ansible-role-sysctl)
+sysctl is inspired from [robertdebock](https://github.com/robertdebock/ansible-role-sysctl).
 
 ## Usage
 Override [defaults](https://github.com/lunics/ansible_role_kernel/tree/main/defaults/main) following the examples below.
@@ -13,18 +13,18 @@ sysctl_settings:
     value: 60
 
 modprobe:                 # load modules during the live system, not persistent
-  - name: bluetooth
-  # - name: dea
-  #   parameter: feoia
-  # - module-name
+  - name: zfs
+  - name: foo
+    parameter: bar
+    state: present
 modules_load_d: []        # load modules at boot time, persistent
-  - name:
-    parameter:
+  - name: module_a
+    parameter: env=1
 modprobe_d_blacklist: []  # blacklist modules at boot
   - name: nouveau
 modprobe_d_option:  []    # define parameters to listed modules
-  # - name:
-  #   parameter:
+  - name:
+    parameter:
 modprobe_d_alias:  []     # define alias modules, TODO
 modprobe_reboot: false
 ```
