@@ -1,0 +1,14 @@
+kernel: linux               # linux, linux-lts, linux-zen, linux-rt
+
+sysctl_settings: []
+sysctl_set:      true       # verify token value with the sysctl command and set with -w if necessary
+sysctl_reload:   true       # run /sbin/sysctl -p if the sysctl_file is updated
+sysctl_reboot:   false
+
+modprobe:             []    # load modules during the live system, not persistent
+modules_load_d:       []    # load modules at boot time, persistent
+# modprobe.d/* can blacklist, add options or create an alias; udev modules input running via modprobe, persistent
+modprobe_d_blacklist: []    # blacklist modules at boot
+modprobe_d_option:    []    # define parameters to listed modules
+modprobe_d_alias:     []    # define alias modules, TODO
+modprobe_reboot:      false

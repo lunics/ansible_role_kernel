@@ -1,0 +1,47 @@
+- block:
+  - block:
+    - name: modprobe | assert > Test if modprobe_modules is set correctly
+      assert:
+        that: modprobe is iterable
+          # - modprobe_modules is iterable
+        quiet: true
+      when: modprobe is defined
+
+    - name: modprobe | assert > Test if item in modprobe is set correctly
+      assert:
+        that:
+          - item is defined
+          - item is string
+          - item is not none
+        quiet: true
+      loop: "{{ modprobe }}"
+
+    run_once:    true
+    # delegate_to: localhost      KO ''vault'' is undefined
+
+  - name: modprobe | set_fact > _reboot
+    set_fact:
+      _reboot: "{{ true if modprobe_reboot else false }}"
+
+  - name: modprobe | package > install dependencies
+    package:
+      name: "{{ modprobe_dependencies }}"
+
+  - name: modprobe | modprobe > load requested modules
+    modprobe:
+      name:   "{{ item.name   | default(item)      }}"
+      params: "{{ item.params | default(omit)      }}"
+      state:  "{{ item.state  | default('present') }}"
+    loop: "{{ modprobe }}"
+
+  - name: modprobe | template > generate /etc/{modules-load.d, modprobe}/* config files
+    template:
+      src:  "{{ item.src  }}"
+      dest: "{{ item.dest }}"
+      mode: "0600"
+    loop:
+      - { src: modules_load_d, dest: /etc/modules-load.d/ansible_managed.conf }
+      - { src: modprobe_d,     dest: /etc/modprobe.d/ansible_managed.conf         }
+    notify: "kernel | reboot"
+
+  tags: modprobe

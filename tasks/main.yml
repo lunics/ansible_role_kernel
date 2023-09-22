@@ -1,0 +1,9 @@
+- block:
+  - import_tasks: packages.yml
+
+  - import_tasks: sysctl.yml
+
+  - import_tasks: modprobe.yml
+
+  become_user: root
+  tags: kernel

@@ -1,0 +1,20 @@
+galaxy_info:
+  role_name:    kernel
+  author:       lunics
+  description:  A role to install the Linux kernel and setup sysctl and modprobe
+  license:      GPL-3.0
+  company:      none
+  min_ansible_version: 2.1
+  platforms:
+    - name: Archlinux
+      versions:
+        - all
+  galaxy_tags:
+    - kernel
+    - sysctl
+    - system
+    - modprobe
+    - modules-load
+    - modules
+
+dependencies: []

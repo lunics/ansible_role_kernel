@@ -1,0 +1,9 @@
+- block:
+  - name: package > intall dependencies
+    package:
+      name: "{{ item }}"
+    loop:
+      - "{{ kernel }}"
+      - "{{ kernel }}-headers"     # if linux-lts, help to properly ensure no issues compiling modules when getting rebuilt during updates
+
+  tags: kernel_packages

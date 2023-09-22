@@ -1,0 +1,38 @@
+- block:
+  - block:
+    - name: sysctl | assert > Test if sysctl_set is set correctly
+      assert:
+        that:
+          - sysctl_set is defined
+          - sysctl_set is boolean
+        quiet: true
+
+    - name: sysctl | assert > Test if sysctl_reload is set correctly
+      assert:
+        that:
+          - sysctl_reload is defined
+          - sysctl_reload is boolean
+        quiet: true
+
+    run_once:    true
+    # delegate_to: localhost      KO ''vault'' is undefined
+
+  - name: sysctl | package > install dependencies
+    package:
+      name: "{{ sysctl_dependencies }}"
+
+  - name: sysctl | sysctl > settings
+    sysctl:
+      name:        "{{ item.name   }}"
+      value:       "{{ item.value  }}"
+      sysctl_set:  "{{ item.set    | default(sysctl_set)    }}"
+      sysctl_file: "{{ item.file   | default(omit)          }}"
+      state:       "{{ item.state  | default('present')     }}"
+      reload:      "{{ item.reload | default(sysctl_reload) }}"
+    when:
+      - item.name  is defined
+      - item.value is defined
+      - ansible_connection not in [ "container", "docker", "community.docker.docker" ]
+    loop: "{{ sysctl_settings }}"
+
+  tags: sysctl

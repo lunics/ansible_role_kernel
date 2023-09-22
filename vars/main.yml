@@ -1,0 +1,14 @@
+_sysctl_dependencies:
+  default:
+    - procps
+  RedHat:
+    - procps-ng
+
+_modprobe_dependencies:
+  default:
+    - kmod                # linux kernel module management tools and library
+  Suse:
+    - module-init-tools
+
+sysctl_dependencies:   "{{ _sysctl_dependencies[ansible_os_family]   | default(_sysctl_dependencies['default'])   }}"
+modprobe_dependencies: "{{ _modprobe_dependencies[ansible_os_family] | default(_modprobe_dependencies['default']) }}"

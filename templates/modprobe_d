@@ -1,0 +1,6 @@
+{% for item in modprobe_d_blacklist %}
+blacklist {{ item }}
+{% endfor %}
+{% for item in modprobe_d_option %}
+options {{ item.name }} {{ item.parameter }}
+{% endfor %}

@@ -1,0 +1,3 @@
+{% for item in modules_load_d %}
+option {{ item.name }} {{ item.parameter }}
+{% endfor %}
